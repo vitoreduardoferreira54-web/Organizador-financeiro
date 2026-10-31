@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel de controle financeiro pessoal com gráficos, indicadores e tabela de movimentações.">
+  <title>MeuDinheiro — Painel Financeiro</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="tema-futurista.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="MeuDinheiro início">
+        <span class="brand-mark">M</span><span>Meu<span>Dinheiro</span></span>
+      </a>
+      <p class="nav-caption">MENU PRINCIPAL</p>
+      <nav class="side-nav" aria-label="Navegação principal">
+        <a class="nav-link active" href="#visao-geral"><span>▦</span> Visão geral</a>
+        <a class="nav-link" href="#analises"><span>▥</span> Análises</a>
+        <a class="nav-link" href="#movimentacoes"><span>↕</span> Movimentações</a>
+        <a class="nav-link" href="#nova-movimentacao"><span>＋</span> Nova movimentação</a>
+      </nav>
+      <div class="sidebar-tip">
+        <div class="tip-icon">✦</div>
+        <strong>Pequenos passos, grandes planos.</strong>
+        <p>Registrar seus gastos ajuda você a tomar decisões melhores.</p>
+      </div>
+      <div class="sidebar-footer"><span class="online-dot"></span> Dados salvos neste navegador</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SEU PAINEL FINANCEIRO</p>
+          <h1>Visão geral <span class="wave">✦</span></h1>
+          <p class="subtitle">Acompanhe seu dinheiro e mantenha seus objetivos no caminho certo.</p>
+        </div>
+        <div class="topbar-actions"><div class="user-chip"><span class="user-avatar" id="userAvatar">V</span><div><strong id="userNameDisplay">Vitor</strong><small id="userAgeDisplay">16 anos</small></div></div><div class="topbar-date"><span class="date-icon">▦</span><div><small>HOJE</small><strong id="todayLabel">--</strong></div></div></div>
+      </header>
+
+      <section id="visao-geral" class="metrics-grid" aria-label="Resumo financeiro">
+        <article class="metric-card metric-balance">
+          <div class="metric-top"><span>Saldo atual</span><span class="metric-icon">R$</span></div>
+          <p class="metric-value" id="balanceValue">R$ 0,00</p>
+          <div class="metric-foot"><span class="trend-pill purple-pill">●</span><span>Saldo inicial + movimentações</span></div>
+          <div class="metric-art art-balance">R$</div>
+        </article>
+        <article class="metric-card metric-income">
+          <div class="metric-top"><span>Receitas registradas</span><span class="metric-icon">↗</span></div>
+          <p class="metric-value" id="incomeValue">R$ 0,00</p>
+          <div class="metric-foot"><span class="trend-pill green-pill">↑</span><span>Entradas no período</span></div>
+          <div class="metric-art art-income">+</div>
+        </article>
+        <article class="metric-card metric-expense">
+          <div class="metric-top"><span>Despesas registradas</span><span class="metric-icon">↘</span></div>
+          <p class="metric-value" id="expenseValue">R$ 0,00</p>
+          <div class="metric-foot"><span class="trend-pill orange-pill">↓</span><span>Saídas no período</span></div>
+          <div class="metric-art art-expense">−</div>
+        </article>
+        <article class="metric-card metric-savings">
+          <div class="metric-top"><span>Taxa de economia</span><span class="metric-icon">◎</span></div>
+          <p class="metric-value" id="savingsRate">0%</p>
+          <div class="metric-foot"><span class="trend-pill blue-pill">✦</span><span>Receitas que sobraram</span></div>
+          <div class="metric-art art-savings">%</div>
+        </article>
+      </section>
+
+      <section id="analises" class="charts-grid">
+        <article class="panel chart-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">ENTRADAS X SAÍDAS</p><h2>Fluxo financeiro</h2><p class="panel-subtitle">Comparativo dos últimos 6 meses</p></div>
+            <span class="heading-badge">6 meses</span>
+          </div>
+          <div class="chart-legend"><span><i class="legend-dot income-dot"></i> Receitas</span><span><i class="legend-dot expense-dot"></i> Despesas</span></div>
+          <div class="chart-wrap"><canvas id="flowChart" role="img" aria-label="Gráfico de barras comparando receitas e despesas dos últimos seis meses"></canvas></div>
+          <p class="chart-note" id="flowNote">Seus dados financeiros aparecerão aqui.</p>
+        </article>
+        <article class="panel chart-panel category-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">PARA ONDE VAI</p><h2>Distribuição das despesas</h2><p class="panel-subtitle">Por categoria</p></div>
+            <span class="round-icon">◔</span>
+          </div>
+          <div class="donut-layout">
+            <div class="donut-wrap"><canvas id="categoryChart" role="img" aria-label="Gráfico de rosca com distribuição das despesas por categoria"></canvas><div class="donut-center"><small>Total de gastos</small><strong id="donutTotal">R$ 0</strong></div></div>
+            <div id="categoryLegend" class="category-legend"></div>
+          </div>
+          <p class="chart-note">Categorias são identificadas pela descrição da movimentação.</p>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel goal-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">PLANEJE O FUTURO</p><h2>Meta de economia</h2><p class="panel-subtitle">Acompanhe o progresso da sua reserva.</p></div>
+            <span class="goal-sparkle">✦</span>
+          </div>
+          <div class="goal-amount-row"><div><small>Valor guardado estimado</small><strong id="savedAmount">R$ 0,00</strong></div><div class="goal-target"><small>Meta</small><strong id="goalTargetLabel">R$ 1.000,00</strong></div></div>
+          <div class="progress-track"><div class="progress-fill" id="goalProgress"></div></div>
+          <div class="progress-labels"><span id="goalPercent">0% concluído</span><span id="goalRemaining">Faltam R$ 1.000,00</span></div>
+          <form id="goalForm" class="goal-form">
+            <label for="goalTarget">Alterar meta (R$)</label>
+            <div class="goal-input-row"><input id="goalTarget" type="number" min="1" max="100000000" step="0.01" value="1000" required><button class="btn btn-dark" type="submit">Atualizar meta</button></div>
+          </form>
+        </article>
+        <article class="panel insight-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">RESUMO INTELIGENTE</p><h2>Destaques financeiros</h2><p class="panel-subtitle">Uma leitura rápida dos seus números.</p></div>
+            <span class="insight-icon">✧</span>
+          </div>
+          <div id="insightsList" class="insights-list">
+            <div class="insight-item"><span class="insight-symbol">✦</span><p>Adicione movimentações para ver seus destaques.</p></div>
+          </div>
+        </article>
+      </section>
+
+      <section id="nova-movimentacao" class="panel add-panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">REGISTRE AGORA</p><h2>Nova movimentação</h2><p class="panel-subtitle">Cada registro ajuda a manter seu controle atualizado.</p></div>
+          <span class="add-symbol">＋</span>
+        </div>
+        <form id="transactionForm" class="transaction-form">
+          <div class="field"><label for="transactionDescription">Descrição</label><input id="transactionDescription" type="text" placeholder="Ex.: Mesada, mercado, transporte..." maxlength="100" required></div>
+          <div class="field"><label for="transactionAmount">Valor (R$)</label><input id="transactionAmount" type="number" placeholder="0,00" min="0.01" max="100000000" step="0.01" required></div>
+          <div class="field"><label for="transactionType">Tipo</label><select id="transactionType" required><option value="income">Receita / entrada</option><option value="expense">Despesa / saída</option></select></div>
+          <div class="field"><label for="transactionDate">Data</label><input id="transactionDate" type="date" required></div>
+          <button class="btn btn-primary" type="submit">＋ Adicionar registro</button>
+        </form>
+      </section>
+
+      <section id="movimentacoes" class="panel table-panel">
+        <div class="panel-heading table-heading">
+          <div><p class="eyebrow">HISTÓRICO COMPLETO</p><h2>Tabela financeira</h2><p class="panel-subtitle">Consulte, filtre e remova registros.</p></div>
+          <button id="exportCsv" class="btn btn-outline" type="button">⇩ Exportar CSV</button>
+        </div>
+        <div class="table-toolbar">
+          <div class="search-box"><span>⌕</span><input id="searchTransactions" type="search" placeholder="Buscar movimentação..." aria-label="Buscar movimentação"></div>
+          <select id="transactionFilter" aria-label="Filtrar movimentações"><option value="all">Todas as movimentações</option><option value="income">Somente receitas</option><option value="expense">Somente despesas</option></select>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Descrição</th><th>Categoria</th><th>Data</th><th>Tipo</th><th class="align-right">Valor</th><th aria-label="Ações"></th></tr></thead>
+            <tbody id="transactionTableBody"></tbody>
+          </table>
+        </div>
+        <div class="table-footer"><span id="transactionCount">0 movimentações</span><button id="resetDemo" class="text-button" type="button">Restaurar dados de demonstração</button></div>
+      </section>
+
+      <footer class="footer"><span class="footer-brand">MeuDinheiro</span><span>Projeto escolar • HTML, CSS e JavaScript</span><span>Seus dados ficam neste navegador.</span></footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+</body>
+</html>

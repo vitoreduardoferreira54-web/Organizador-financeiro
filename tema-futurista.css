@@ -1,0 +1,179 @@
+/* =====================================================================
+   TEMA HUD / CYBERPUNK — MeuDinheiro
+   Só visual: não mexe em HTML nem em JS. Carregue DEPOIS do style.css.
+   ===================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+/* 1) PALETA + TOKENS ------------------------------------------------- */
+:root{
+  --void:#04060d;                      /* fundo base */
+  --glass:rgba(9,14,30,.74);           /* painéis translúcidos */
+  --cyan:#00e5ff; --magenta:#ff2bd6; --lime:#39ff88; --amber:#ffb800; --violet:#9d7bff;
+  --ink:#d6e8ff; --muted:#6f86a8; --line:rgba(0,229,255,.16);
+  --f-display:'Orbitron','Segoe UI',sans-serif;   /* títulos e números */
+  --f-mono:'Share Tech Mono',ui-monospace,monospace; /* rótulos e dados */
+  /* remapeia as variáveis antigas para o novo tema */
+  --bg:var(--void); --surface:var(--glass); --radius:3px;
+  --purple:var(--cyan); --purple-dark:var(--violet); --green:var(--lime);
+  --pink:var(--magenta); --orange:var(--amber); --blue:var(--cyan);
+  --shadow:0 0 28px rgba(0,229,255,.07);
+  color-scheme:dark;                   /* select, date picker e scroll nativos escuros */
+}
+html{font-size:104%}
+*{scrollbar-width:thin;scrollbar-color:rgba(0,229,255,.4) transparent}
+::selection{background:rgba(0,229,255,.3)}
+
+/* 2) FUNDO: grade + brilhos + scanlines ------------------------------ */
+body{
+  font-family:'Rajdhani','Segoe UI',sans-serif;color:var(--ink);
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(157,123,255,.18),transparent 60%),
+    radial-gradient(700px 500px at 0 100%,rgba(0,229,255,.12),transparent 60%),
+    linear-gradient(rgba(0,229,255,.035) 1px,transparent 1px) 0 0/40px 40px,
+    linear-gradient(90deg,rgba(0,229,255,.035) 1px,transparent 1px) 0 0/40px 40px,
+    var(--void);
+  background-attachment:fixed;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.35;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 3px)}
+
+/* 3) TIPOGRAFIA ------------------------------------------------------ */
+.topbar h1{font:800 clamp(1.3rem,2vw,1.8rem) var(--f-display);letter-spacing:2px;text-transform:uppercase;
+  text-shadow:0 0 18px rgba(0,229,255,.55)}
+.wave{color:var(--cyan)}
+.panel h2{font:700 .92rem var(--f-display);letter-spacing:1.4px;text-transform:uppercase}
+.eyebrow,.nav-caption{font:.7rem var(--f-mono);letter-spacing:2px;color:var(--cyan);opacity:.75}
+.eyebrow::before,.nav-caption::before{content:"// "}
+.subtitle,.panel-subtitle,.chart-note,.progress-labels,.table-footer,.footer{color:var(--muted)}
+.footer,.table-footer,.chart-note,.progress-labels{font-family:var(--f-mono)}
+.footer-brand{color:var(--cyan)}
+
+/* 4) SIDEBAR --------------------------------------------------------- */
+.sidebar{overflow-y:auto;background:rgba(5,8,18,.88);backdrop-filter:blur(12px);border-right:1px solid var(--line);
+  box-shadow:6px 0 30px rgba(0,229,255,.06)}
+.brand{font:800 1.05rem var(--f-display);letter-spacing:1px;color:var(--ink)}
+.brand>span:last-child>span{color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+.brand-mark{background:transparent;border:1px solid var(--cyan);border-radius:3px;color:var(--cyan);
+  font-family:var(--f-display);box-shadow:0 0 14px rgba(0,229,255,.5),inset 0 0 10px rgba(0,229,255,.25)}
+.nav-link{font:600 .76rem var(--f-mono);letter-spacing:.4px;text-transform:uppercase;color:var(--muted);
+  border-radius:0;border-left:2px solid transparent}
+.nav-link:hover,.nav-link.active{color:var(--cyan);border-left-color:var(--cyan);text-shadow:0 0 10px var(--cyan);
+  background:linear-gradient(90deg,rgba(0,229,255,.16),transparent)}
+.sidebar-tip{background:rgba(0,229,255,.05);border:1px dashed rgba(0,229,255,.35);border-radius:3px}
+.tip-icon{background:transparent;border:1px solid var(--amber);color:var(--amber);border-radius:3px}
+.sidebar-tip p,.sidebar-footer{color:var(--muted);font-family:var(--f-mono)}
+.online-dot{background:var(--lime);box-shadow:0 0 10px var(--lime);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+
+/* 5) TOPBAR ---------------------------------------------------------- */
+.user-chip,.topbar-date{background:var(--glass);border:1px solid var(--line);border-radius:3px;backdrop-filter:blur(8px)}
+.user-avatar{background:linear-gradient(135deg,var(--magenta),var(--violet));border-radius:3px;
+  box-shadow:0 0 14px rgba(255,43,214,.5);font-family:var(--f-display)}
+.date-icon{background:transparent;border:1px solid var(--cyan);color:var(--cyan);border-radius:3px}
+.topbar-date small,.user-chip small{font-family:var(--f-mono);color:var(--muted)}
+
+/* 6) PAINÉIS: vidro + colchetes de canto estilo HUD ------------------ */
+.panel{position:relative;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--line);
+  border-radius:3px;box-shadow:var(--shadow),inset 0 0 40px rgba(0,229,255,.03)}
+.panel::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:
+    linear-gradient(var(--cyan),var(--cyan)) top left/16px 2px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) top left/2px 16px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) bottom right/16px 2px no-repeat,
+    linear-gradient(var(--cyan),var(--cyan)) bottom right/2px 16px no-repeat;
+  filter:drop-shadow(0 0 4px var(--cyan))}
+
+/* 7) CARDS DE MÉTRICA: cada um com sua cor neon (--c) ---------------- */
+.metric-card{container-type:inline-size;--c:var(--cyan);color:var(--ink);border-radius:3px;
+  border:1px solid color-mix(in srgb,var(--c) 45%,transparent);
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 14%,#070b18),#070b18 70%);
+  box-shadow:0 0 22px color-mix(in srgb,var(--c) 18%,transparent),inset 0 0 28px color-mix(in srgb,var(--c) 7%,transparent)}
+.metric-balance{--c:var(--violet)} .metric-income{--c:var(--lime)}
+.metric-expense{--c:var(--magenta)} .metric-savings{--c:var(--cyan)}
+.metric-top{font-family:var(--f-mono);text-transform:uppercase;letter-spacing:1px;color:var(--c)}
+.metric-icon,.trend-pill{background:transparent;border:1px solid var(--c);color:var(--c);border-radius:3px}
+.metric-value{font:700 clamp(.5rem,7.8cqw,1.5rem) var(--f-display);letter-spacing:.5px;color:var(--c);
+  text-shadow:0 0 14px color-mix(in srgb,var(--c) 70%,transparent)}
+.metric-foot{font-family:var(--f-mono);color:var(--muted)}
+.metric-art{color:color-mix(in srgb,var(--c) 10%,transparent)}
+
+/* 8) ÍCONES / BADGES ------------------------------------------------- */
+.heading-badge,.round-icon,.goal-sparkle,.insight-icon,.add-symbol{background:transparent;border-radius:3px;
+  border:1px solid currentColor}
+.heading-badge{color:var(--cyan);font-family:var(--f-mono)} .round-icon{color:var(--magenta)} .goal-sparkle{color:var(--amber)}
+.insight-icon,.add-symbol{color:var(--lime)}
+.heading-badge,.round-icon,.goal-sparkle,.insight-icon,.add-symbol{box-shadow:0 0 10px color-mix(in srgb,currentColor 35%,transparent)}
+
+/* 9) GRÁFICOS (canvas): brilho neon via CSS -------------------------- */
+.chart-wrap canvas,.donut-wrap canvas{filter:saturate(1.4) brightness(1.12) drop-shadow(0 0 6px rgba(0,229,255,.3))}
+.chart-legend{font-family:var(--f-mono);color:var(--muted)}
+.legend-dot,.category-swatch{border-radius:1px;box-shadow:0 0 8px currentColor}
+.income-dot{box-shadow:0 0 8px var(--lime)} .expense-dot{box-shadow:0 0 8px var(--magenta)}
+.donut-wrap{container-type:inline-size}
+.donut-center small{font-family:var(--f-mono);color:var(--muted);font-size:clamp(.45rem,5cqw,.65rem)}
+.donut-center strong{font-family:var(--f-display);font-size:clamp(.5rem,7cqw,1.02rem);color:var(--cyan);text-shadow:0 0 12px rgba(0,229,255,.6)}
+.category-name{color:var(--muted);font-family:var(--f-mono)} .category-amount{color:var(--ink)}
+
+/* 10) META: barra de progresso segmentada ---------------------------- */
+.progress-track{height:14px;border-radius:0;background:rgba(0,229,255,.07);border:1px solid var(--line)}
+.progress-fill{border-radius:0;box-shadow:0 0 16px var(--cyan);
+  background:repeating-linear-gradient(90deg,transparent 0 10px,rgba(4,6,13,.75) 10px 12px),
+             linear-gradient(90deg,var(--cyan),var(--violet))}
+.goal-amount-row{flex-wrap:wrap}
+.goal-amount-row small,.goal-form label,.field label{font-family:var(--f-mono);text-transform:uppercase;
+  letter-spacing:1px;color:var(--muted)}
+.goal-amount-row strong{font-family:var(--f-display);text-shadow:0 0 12px rgba(0,229,255,.4)}
+.goal-target strong{color:var(--amber)}
+.goal-form{border-top:1px dashed var(--line)}
+.insight-item{background:rgba(0,229,255,.04);border:1px solid var(--line);border-left:2px solid var(--cyan);border-radius:2px}
+.insight-symbol{background:transparent;border:1px solid var(--cyan);color:var(--cyan);border-radius:2px;font-family:var(--f-mono)}
+.insight-item p{color:var(--muted)} .insight-item strong{color:var(--cyan)}
+
+/* 11) INPUTS E SELECTS ----------------------------------------------- */
+.goal-input-row input,.field input,.field select,.table-toolbar select,.search-box{
+  background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.28);border-radius:2px;
+  color:var(--ink);font-family:var(--f-mono);caret-color:var(--cyan);transition:border-color .2s,box-shadow .2s}
+.goal-input-row input:focus,.field input:focus,.field select:focus,.table-toolbar select:focus,.search-box:focus-within{
+  border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 0 18px rgba(0,229,255,.35),inset 0 0 12px rgba(0,229,255,.1)}
+.field input::placeholder,.search-box input::placeholder{color:#5d7699}
+.search-box input{color:var(--ink);font-family:var(--f-mono)} .search-box>span{color:var(--cyan)}
+select option{background:#0a0f1e;color:var(--ink)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+/* 12) BOTÕES --------------------------------------------------------- */
+.btn{border-radius:2px;font:700 .75rem var(--f-display);letter-spacing:1.5px;text-transform:uppercase;
+  border:1px solid var(--cyan);color:var(--cyan);background:rgba(0,229,255,.06);
+  transition:box-shadow .2s,background .2s,transform .15s}
+.btn:hover{filter:none;background:rgba(0,229,255,.18);box-shadow:0 0 20px rgba(0,229,255,.55);transform:translateY(-1px)}
+.btn-primary{color:#c9faff;background:linear-gradient(135deg,rgba(0,229,255,.28),rgba(157,123,255,.28));
+  box-shadow:0 0 16px rgba(0,229,255,.35),inset 0 0 14px rgba(0,229,255,.18)}
+.btn-dark{border-color:var(--violet);color:var(--violet);background:rgba(157,123,255,.08)}
+.btn-dark:hover{background:rgba(157,123,255,.2);box-shadow:0 0 20px rgba(157,123,255,.55)}
+.btn-outline{border-color:var(--line);color:var(--muted)}
+.text-button{color:var(--cyan);font-family:var(--f-mono);text-transform:uppercase;letter-spacing:1px}
+.text-button:hover{text-shadow:0 0 10px var(--cyan)}
+
+/* 13) TABELA --------------------------------------------------------- */
+thead{background:rgba(0,229,255,.06)}
+th{font:.68rem var(--f-mono);letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan)}
+td{border-top:1px solid rgba(0,229,255,.08);color:var(--muted);font-family:var(--f-mono);font-size:.8rem}
+td:first-child{color:var(--ink);font-family:'Rajdhani',sans-serif;font-size:.95rem}
+tbody tr{transition:background .15s} tbody tr:hover td{background:rgba(0,229,255,.05)}
+.table-footer{border-top:1px solid var(--line)}
+.transaction-symbol,.category-tag,.type-tag{border-radius:2px;border:1px solid currentColor;background:transparent}
+.symbol-income,.type-income,.amount-income{color:var(--lime)}
+.symbol-expense,.type-expense,.amount-expense{color:var(--magenta)}
+.category-tag{color:var(--violet)}
+.amount-income,.amount-expense{text-shadow:0 0 10px color-mix(in srgb,currentColor 55%,transparent)}
+.delete-btn{color:var(--muted);border-radius:2px}
+.delete-btn:hover{background:rgba(255,43,214,.12);color:var(--magenta);text-shadow:0 0 8px var(--magenta)}
+.empty-row{color:var(--muted)!important}
+
+/* 14) TOAST ---------------------------------------------------------- */
+.toast{background:rgba(5,8,18,.95);border:1px solid var(--cyan);border-radius:2px;color:var(--cyan);
+  font-family:var(--f-mono);box-shadow:0 0 24px rgba(0,229,255,.4)}
+
+/* 15) AJUSTES RESPONSIVOS E ACESSIBILIDADE --------------------------- */
+@media(max-width:1250px){.nav-link{font-size:.7rem;letter-spacing:.2px}}
+@media(max-width:900px){.sidebar{border-right:0;border-bottom:1px solid var(--line);box-shadow:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
